@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     tools {
-        maven 'Maven3' // Make sure this name matches your Jenkins Global Tool Configuration
+        maven 'Maven3' 
     }
 
     stages {
@@ -16,22 +16,24 @@ pipeline {
         stage('Build & Test') {
             steps {
                 echo 'Compiling and running automated tests...'
-                sh 'mvn clean test'
+                // Changed sh to bat for Windows
+                bat 'mvn clean test'
             }
         }
 
         stage('Package') {
             steps {
                 echo 'Packaging the application...'
-                sh 'mvn package -DskipTests'
+                // Changed sh to bat for Windows
+                bat 'mvn package -DskipTests'
             }
         }
 
         stage('Docker Build') {
             steps {
                 echo 'Building the Docker Image...'
-                // The name 'foodorder-app' is arbitrary for local testing
-                sh 'docker build -t foodorder-app:latest .'
+                // Changed sh to bat for Windows
+                bat 'docker build -t foodorder-app:latest .'
             }
         }
     }
