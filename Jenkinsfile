@@ -34,15 +34,14 @@ pipeline {
             }
         }
         
-        // --- ADD THIS NEW STAGE ---
         stage('Deploy Local Server') {
             steps {
                 echo 'Restarting Docker Container...'
-                // Stop the old container if it is running (|| true prevents errors if it doesn't exist)
-                bat 'docker stop food-server || true'
-                bat 'docker rm food-server || true'
+                // Windows compatible way to ignore errors if the container doesn't exist yet
+                bat 'docker stop food-server || echo "Container was not running"'
+                bat 'docker rm food-server || echo "Container was already removed"'
                 
-                // Start the fresh container in the background (-d) on port 8080
+                // Start the fresh container
                 bat 'docker run -d -p 8080:8080 --name food-server foodorder-app:latest'
             }
         }
