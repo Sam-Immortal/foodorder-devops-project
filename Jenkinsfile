@@ -16,7 +16,6 @@ pipeline {
         stage('Build & Test') {
             steps {
                 echo 'Compiling and running automated tests...'
-                // Changed sh to bat for Windows
                 bat 'mvn clean test'
             }
         }
@@ -24,7 +23,6 @@ pipeline {
         stage('Package') {
             steps {
                 echo 'Packaging the application...'
-                // Changed sh to bat for Windows
                 bat 'mvn package -DskipTests'
             }
         }
@@ -32,8 +30,20 @@ pipeline {
         stage('Docker Build') {
             steps {
                 echo 'Building the Docker Image...'
-                // Changed sh to bat for Windows
                 bat 'docker build -t foodorder-app:latest .'
+            }
+        }
+        
+        // --- ADD THIS NEW STAGE ---
+        stage('Deploy Local Server') {
+            steps {
+                echo 'Restarting Docker Container...'
+                // Stop the old container if it is running (|| true prevents errors if it doesn't exist)
+                bat 'docker stop food-server || true'
+                bat 'docker rm food-server || true'
+                
+                // Start the fresh container in the background (-d) on port 8080
+                bat 'docker run -d -p 8080:8080 --name food-server foodorder-app:latest'
             }
         }
     }
@@ -43,7 +53,7 @@ pipeline {
             echo 'Pipeline execution complete.'
         }
         success {
-            echo 'SUCCESS: All tests passed and image built successfully.'
+            echo 'SUCCESS: Server is running with the latest code!'
         }
         failure {
             echo 'FAILURE: The pipeline failed. Check logs for details.'
