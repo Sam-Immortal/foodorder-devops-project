@@ -12,15 +12,24 @@ public class MenuItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    
+    // --- NEW FIELDS ---
+    private String description;
+    private String imageUrl;
+    // ------------------
+    
     private Double price;
     private Boolean isAvailable;
 
     public MenuItem() {
     }
 
-    public MenuItem(String name, Double price, Boolean isAvailable) {
+    // Updated constructor to include description and imageUrl
+    public MenuItem(String name, String description, Double price, String imageUrl, Boolean isAvailable) {
         this.name = name;
+        this.description = description;
         this.price = price;
+        this.imageUrl = imageUrl;
         this.isAvailable = isAvailable;
     }
 
@@ -39,6 +48,24 @@ public class MenuItem {
     public void setName(String name) {
         this.name = name;
     }
+
+    // --- NEW GETTERS AND SETTERS ---
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+    // -------------------------------
 
     public Double getPrice() {
         return price;
