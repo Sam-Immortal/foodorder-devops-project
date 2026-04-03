@@ -14,6 +14,8 @@ public class RestaurantOrder {
     private Integer tableNumber;
     private String status; // e.g., "Pending", "Confirmed", "Delivered", "Cancelled"
     private Double totalAmount;
+    // Add this with your other variables
+    private Long itemId;
 
     public RestaurantOrder() {
     }
@@ -55,4 +57,8 @@ public class RestaurantOrder {
     public void setTotalAmount(Double totalAmount) {
         this.totalAmount = totalAmount;
     }
+
+    // Add these at the bottom
+    public Long getItemId() { return itemId; }
+    public void setItemId(Long itemId) { this.itemId = itemId; }
 }
