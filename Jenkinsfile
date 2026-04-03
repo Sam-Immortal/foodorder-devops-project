@@ -37,11 +37,12 @@ pipeline {
         stage('Deploy Local Server') {
             steps {
                 echo 'Restarting Docker Container...'
-                // Windows compatible way to ignore errors if the container doesn't exist yet
-                bat 'docker stop food-server || echo "Container was not running"'
-                bat 'docker rm food-server || echo "Container was already removed"'
                 
-                // Start the fresh container
+                // Tell Jenkins to explicitly ignore errors for these two commands
+                bat returnStatus: true, script: 'docker stop food-server'
+                bat returnStatus: true, script: 'docker rm food-server'
+                
+                // Start the fresh container (We DO want Jenkins to catch errors here!)
                 bat 'docker run -d -p 8080:8080 --name food-server foodorder-app:latest'
             }
         }
