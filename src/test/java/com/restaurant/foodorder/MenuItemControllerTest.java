@@ -38,7 +38,7 @@ public class MenuItemControllerTest {
         Mockito.when(menuItemRepository.findAll()).thenReturn(Arrays.asList(item));
 
         // Act & Assert
-        mockMvc.perform(get("/api/menu"))
+        mockMvc.perform(get("/api/menu/all"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].name").value("Paneer Tikka"))
                 .andExpect(jsonPath("$[0].description").value("Type of Paneer Curry"));
